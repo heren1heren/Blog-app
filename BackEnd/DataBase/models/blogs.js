@@ -23,7 +23,7 @@ BlogSchema.virtual('likesCount').get(function () {
   return count;
 });
 BlogSchema.virtual('url').get(function () {
-  const url = '/blogs/' + this.ObjectId;
+  const url = '/blogs/' + this._id;
   return url;
 });
 

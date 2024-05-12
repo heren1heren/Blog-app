@@ -4,12 +4,13 @@ import logger from 'morgan';
 import './DataBase/mongoose.js';
 import indexRouter from './Routes/usersRoutes/index.js';
 import adminRouter from './Routes/adminRoutes/index.js';
+import cors from 'cors';
 const app = express();
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.options('*', cors());
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use((err, req, res, next) => {

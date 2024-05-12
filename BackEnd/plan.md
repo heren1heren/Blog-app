@@ -1,6 +1,5 @@
 **Todo**:
-// handing all post-delete-update and authentication logics for users App first
-
+// start designing front end app
 **Notes**:
 storing virtual url inside models by id
 **Plan**:

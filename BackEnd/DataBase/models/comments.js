@@ -11,7 +11,7 @@ CommentSchema.virtual('likesCount').get(function () {
   return count;
 });
 CommentSchema.virtual('url').get(function () {
-  const url = '/comments/' + this.ObjectId;
+  const url = '/comments/' + this._id;
   return url;
 });
 const Comment = mongoose.model('Comments', CommentSchema);

@@ -1,5 +1,8 @@
 import { Router } from 'express';
-
+const AdminAuthentication = async (req, res, next) => {
+  // mock passport authenticating handlers that passes only if user is sign in
+  next();
+};
 const router = Router();
 
 router.get('/', (req, res, next) => {

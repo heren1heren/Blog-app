@@ -1,14 +1,10 @@
 import { Router } from 'express';
+import 'dotenv/config';
+
 import * as controller from '../../Controllers/index.js';
+
 const router = Router();
-const authentication = async (req, res, next) => {
-  // mock passport authenticating handlers that passes only if user is sign in
-  next();
-};
-const AdminAuthentication = async (req, res, next) => {
-  // mock passport authenticating handlers that passes only if user is sign in
-  next();
-};
+
 //*GET
 router.get('/', controller.indexGet);
 
@@ -18,16 +14,20 @@ router.get('/blogs', controller.blogGet);
 router.get('/blogs/:id', controller.blogDetailGet);
 //*POST
 
-router.post('/login', controller.loginGet);
-router.post('/logout', controller.logoutPost);
-router.post('/signUp', controller.signUpGet);
+//? creating jwt token when post login successful
+router.post('/login', controller.loginPost);
 
-router.post('/blogs/:id/comments/:id', authentication, controller.commentPost);
+//?delete jwt token when user log out
+router.post('/logout', controller.logoutPost);
+router.post('/signUp', controller.signUpPost);
+
+router.post('/blogs/:id/comments/:id', controller.commentPost);
 //*Delete
-router.delete('/user/:id', authentication, controller.userDel);
-router.delete('/blogs/:id/comments/:id', authentication, controller.commentDel);
+
+router.delete('/users/:id', controller.userDel);
+router.delete('/blogs/:id/comments/:id', controller.commentDel);
 //*Update
-router.delete('/user/:id', authentication, controller.userUp);
-router.delete('/blogs/:id/comments/:id', authentication, controller.commentUp);
+router.delete('/users/:id', controller.userUp);
+router.delete('/blogs/:id/comments/:id', controller.commentUp);
 
 export default router;
