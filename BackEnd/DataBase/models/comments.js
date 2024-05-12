@@ -1,18 +1,18 @@
 import mongoose, { Schema } from 'mongoose';
-import { User } from './users';
+import User from './users.js';
 const CommentSchema = new Schema({
-  author: { type: Schema.Types.ObjectId, ref: User }, // take from user reference
-  description: String,
-  date: Schema.Types.Date,
-  likes: [{ type: Schema.Types.ObjectId }], // storing userRef here I think
+  author: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // 'User' should be a string representing the model name
+  description: { type: String, required: true },
+  date: { type: Schema.Types.Date, required: true },
+  likes: [{ type: Schema.Types.ObjectId }] || [],
 });
-
 CommentSchema.virtual('likesCount').get(function () {
-  const count = this.likes.reduce((accumulator) => {
-    const value = 1; // depend on type of current data
-    return accumulator + value;
-  }, 0);
+  const count = this.likes.length;
   return count;
 });
-
-export const Comment = mongoose.model('Comments', CommentSchema);
+CommentSchema.virtual('url').get(function () {
+  const url = '/comments/' + this.ObjectId;
+  return url;
+});
+const Comment = mongoose.model('Comments', CommentSchema);
+export default Comment;

@@ -3,6 +3,7 @@ import 'dotenv/config';
 import logger from 'morgan';
 import './DataBase/mongoose.js';
 import indexRouter from './Routes/usersRoutes/index.js';
+import adminRouter from './Routes/adminRoutes/index.js';
 const app = express();
 
 app.use(logger('dev'));
@@ -10,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
-
+app.use('/admin', adminRouter);
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;

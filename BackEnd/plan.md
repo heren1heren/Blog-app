@@ -1,23 +1,33 @@
+**Todo**:
+// handing all post-delete-update and authentication logics for users App first
+
+**Notes**:
+storing virtual url inside models by id
+**Plan**:
 Backend dependency:
-dotenv
-passportjs
+
+<!-- dotenv -->
+<!-- passportjs -->
+
 jwtpassportjs
 jwtwebtoken
 
 folders:
-DataBase:
 
-- models
-- mongoose.js
+<!-- DataBase: -->
 
-controllers:
-passportjs:
+<!-- - models -->
+<!-- - mongoose.js -->
 
-- strategy
+<!-- controllers: -->
+<!-- passportjs: -->
 
-routes:
-list of how many routes that I need to implement:
+<!-- - strategy -->
 
+<!-- routes: -->
+<!-- list of how many routes that I need to implement: -->
+
+routes refactoring as needed.
 get comment routes main page
 get blogs routes main page
 post comment routes main page

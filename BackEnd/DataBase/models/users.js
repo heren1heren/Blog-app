@@ -1,8 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
-export const User = mongoose.model(
-  'Users',
-  new Schema({
-    username: String,
-    password: String,
-  })
-);
+const UserSchema = new Schema({
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+});
+
+UserSchema.virtual('url').get(function () {
+  const url = '/users/' + this.ObjectId;
+  return url;
+});
+const User = mongoose.model('Users', UserSchema);
+export default User;

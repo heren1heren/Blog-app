@@ -1,18 +1,33 @@
 import { Router } from 'express';
 import * as controller from '../../Controllers/index.js';
 const router = Router();
-
+const authentication = async (req, res, next) => {
+  // mock passport authenticating handlers that passes only if user is sign in
+  next();
+};
+const AdminAuthentication = async (req, res, next) => {
+  // mock passport authenticating handlers that passes only if user is sign in
+  next();
+};
 //*GET
-router.get('/', controller.indexPage);
+router.get('/', controller.indexGet);
 
-router.get('/login', controller.loginPage);
-router.get('/signUp', controller.signUpPage);
-router.get('/blog/:id', controller.blogPage);
+router.get('/login', controller.loginGet);
+router.get('/signUp', controller.signUpGet);
+router.get('/blogs', controller.blogGet);
+router.get('/blogs/:id', controller.blogDetailGet);
 //*POST
-// if we don't use verb as an http endpoint, so how should i name it?
-router.post('/blog/:id', controller.indexPage);
 
-router.post('/login', controller.loginPage);
-router.post('/signUp', controller.signUpPage);
+router.post('/login', controller.loginGet);
+router.post('/logout', controller.logoutPost);
+router.post('/signUp', controller.signUpGet);
+
+router.post('/blogs/:id/comments/:id', authentication, controller.commentPost);
+//*Delete
+router.delete('/user/:id', authentication, controller.userDel);
+router.delete('/blogs/:id/comments/:id', authentication, controller.commentDel);
+//*Update
+router.delete('/user/:id', authentication, controller.userUp);
+router.delete('/blogs/:id/comments/:id', authentication, controller.commentUp);
 
 export default router;
