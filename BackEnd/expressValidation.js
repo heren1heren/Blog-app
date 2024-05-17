@@ -18,8 +18,8 @@ const inputValidation = async (req, res, next) => {
       .withMessage('type cannot be empty')
       .escape();
   }
-  if (req.body.blogData) {
-    body('blogData')
+  if (req.body.description) {
+    body('description')
       .trim()
       .isLength({ min: 8 })
       .withMessage('blogData must be at least 8 characters')

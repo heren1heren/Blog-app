@@ -11,16 +11,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.options('*', cors());
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  console.log(err);
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status || 500).send(err);
 });
 
 app.listen(process.env.PORT, () => console.log('app listening on port 3000!'));

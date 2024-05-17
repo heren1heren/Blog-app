@@ -4,13 +4,16 @@ import { ObjectId } from 'mongodb';
 import User from './users.js';
 const BlogSchema = new Schema({
   title: { type: String, required: true },
-  author: { type: String, required: true },
+  author: { type: String, required: true } || {
+    type: Schema.Types.ObjectId,
+    ref: User,
+  },
   type: { type: String, required: true },
   description: { type: String, required: true },
   date: { type: Schema.Types.Date, required: true },
-  blogData: { type: String, required: true },
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }] || [],
-  likes: [{ type: Schema.Types.ObjectId, ref: 'User' }] || [],
+  formatted_date: { type: Date },
+  comments: [{ type: Schema.Types.ObjectId, ref: Comment }] || [],
+  likes: [{ type: Schema.Types.ObjectId, ref: User }] || [],
 });
 
 BlogSchema.virtual('commentsCount').get(function () {

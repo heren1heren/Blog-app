@@ -18,16 +18,17 @@ router.get('/blogs/:id', controller.blogDetailGet);
 router.post('/login', controller.loginPost);
 
 //?delete jwt token when user log out
+router.post('/', controller.blogPost);
 router.post('/logout', controller.logoutPost);
 router.post('/signUp', controller.signUpPost);
 
-router.post('/blogs/:id/comments/:id', controller.commentPost);
+router.post('/blogs/:id', controller.commentPost);
+
 //*Delete
 
 router.delete('/users/:id', controller.userDel);
 router.delete('/blogs/:id/comments/:id', controller.commentDel);
 //*Update
-router.delete('/users/:id', controller.userUp);
-router.delete('/blogs/:id/comments/:id', controller.commentUp);
-
+router.put('/users/:id', controller.userUp);
+router.put('/blogs/:id/', controller.BlogUp);
 export default router;
