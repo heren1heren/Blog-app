@@ -7,27 +7,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import inputValidation from '../expressValidation.js';
 
-export const verifyToken = async (req, res, next) => {
-  // extract token from the front end where the token is stored after log in(local storage)
-  const bearerHeader = req.headers['authorization'];
-  if (typeof bearerHeader !== 'undefined') {
-    const bearer = bearerHeader.split(' ');
-    // console.log(bearer);
-    const bearerToken = bearer[1];
-    // console.log(bearerToken);
-    req.token = bearerToken; // attach token to request
-    next();
-  } else {
-    console.log('verifytoken error');
-    res.sendStatus(403);
-  }
-};
-
 //*Get
 
 export const indexGet = [
-  verifyToken,
-
   asyncHandler(async (req, res, next) => {
     jwt.verify(req.token, 'secret', (err, authData) => {
       console.log('access');
@@ -72,7 +54,6 @@ export const blogGet = asyncHandler(async (req, res, next) => {
   )
     .populate('comments')
     .exec();
-  console.log(blogs);
   res.json({
     blogs,
   });
@@ -101,60 +82,85 @@ export const blogDetailGet = asyncHandler(async (req, res, next) => {
 
 /*
  todo:  authentication logics
-  implementing  sign up post -> implementing authentication with login and sign up post
+
 
  */
-export const loginPost = asyncHandler(
-  async (req, res, next) => {
-    // const { username, password } = req.body;
-    const user = {
-      username: 'heren',
-      password: 'aoeuaoeu',
-    };
-    // if (user.username) {
-    // const match = await bcrypt.compare(req.body.password, user.password);
+export const loginPost = [
+  inputValidation,
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty) {
+      console.log(errors);
+      res.json({ errors });
+    }
 
-    // if (!match) {
-    //   return res
-    //     .status(401)
-    //     .json({ message: 'incorrect user or password inside match' });
-    // }
-    const token = jwt.sign({ user }, 'secret', async (err, token) => {
-      if (err) {
-        console.log(err);
-        return;
+    const { username, password } = req.body;
+    const user = await User.findOne({ username }).exec();
+    if (!user.username) {
+      res.status(401).json({ message: 'incorrect user or password' });
+      return;
+    }
+    if (user.username) {
+      const match = await bcrypt.compare(password, user.password);
+
+      if (!match) {
+        return res
+          .status(401)
+          .json({ message: 'incorrect user or password inside match' });
       }
-      res.json({ token });
-    });
-  }
-  // }
-);
+      const token = jwt.sign(
+        { user },
+        'secret',
+        { expiresIn: '10h' },
+        async (err, token) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          res.json({ token, message: 'successful' });
+        }
+      );
+    }
+  }),
+];
 export const logoutPost = asyncHandler(async (req, res, next) => {
-  // delete jwt token inside client localstorage
   res.json({
-    text: 'hello world',
+    token: '',
   });
 });
 export const signUpPost = [
   inputValidation,
   asyncHandler(async (req, res, next) => {
     // after validation
-
+    // looking for username existed
+    const errors = validationResult(req);
+    const existedUser = await User.findOne({
+      username: req.body.username,
+    }).exec();
+    if (!errors.isEmpty) {
+      console.log(errors);
+      res.json({ errors });
+    }
+    if (existedUser) {
+      console.log('username is existed');
+      res.json({
+        message: 'username is existed',
+      });
+      return;
+    }
     bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
       if (err) {
         console.log(err);
         return res.json(err);
       }
 
-      const user = User.create({
-        username: 'heren',
+      await User.create({
+        username: req.body.username,
         password: hashedPassword, // should be done by bcrypt
       });
 
       res.json({
-        text: 'hello world',
-        userUrl: user.url, // to create a link tag with Path to: userUrl
-        user,
+        message: 'successful',
       });
     });
   }),

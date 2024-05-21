@@ -4,21 +4,21 @@ const inputValidation = async (req, res, next) => {
   // comments validation: 'description'
   // users validation: 'username' ; 'password'
   // mock input validation from express validation
-  if (req.body.title) {
+  if (req.body.title || typeof reqBodyTitle === 'string') {
     body('title')
       .trim()
       .isLength({ min: 1 })
       .withMessage('title cannot be empty')
       .escape();
   }
-  if (req.body.type) {
+  if (req.body.type || typeof reqBodyTitle === 'string') {
     body('type')
       .trim()
       .isLength({ min: 1 })
       .withMessage('type cannot be empty')
       .escape();
   }
-  if (req.body.description) {
+  if (req.body.description || typeof reqBodyTitle === 'string') {
     body('description')
       .trim()
       .isLength({ min: 8 })
@@ -26,21 +26,21 @@ const inputValidation = async (req, res, next) => {
       .escape();
   }
 
-  if (req.body.username) {
+  if (req.body.username || typeof reqBodyTitle === 'string') {
     body('username')
       .trim()
-      .isLength({ min: 1 })
+      .isLength({ min: 3 })
       .withMessage('username cannot be empty')
       .escape();
   }
-  if (req.body.description) {
+  if (req.body.description || typeof reqBodyTitle === 'string') {
     body('description')
       .trim()
       .isLength({ min: 8 })
       .withMessage('description must be longer than 8 characters')
       .escape();
   }
-  if (req.body.password) {
+  if (req.body.password || typeof reqBodyTitle === 'string') {
     body('password')
       .trim()
       .isLength({ min: 1 })

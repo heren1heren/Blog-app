@@ -4,6 +4,7 @@ import logger from 'morgan';
 import './DataBase/mongoose.js';
 import indexRouter from './Routes/usersRoutes/index.js';
 import adminRouter from './Routes/adminRoutes/index.js';
+import './Passportjs/strategies.js';
 import cors from 'cors';
 const app = express();
 app.use(logger('dev'));
@@ -21,7 +22,6 @@ app.all('*', function (req, res, next) {
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use((err, req, res, next) => {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   console.log(err);

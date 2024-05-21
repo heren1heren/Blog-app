@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import 'dotenv/config';
-
+import passport from 'passport';
 import * as controller from '../../Controllers/index.js';
 
 const router = Router();
@@ -18,11 +18,19 @@ router.get('/blogs/:id', controller.blogDetailGet);
 router.post('/login', controller.loginPost);
 
 //?delete jwt token when user log out
-router.post('/', controller.blogPost);
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  controller.blogPost
+);
 router.post('/logout', controller.logoutPost);
 router.post('/signUp', controller.signUpPost);
 
-router.post('/blogs/:id', controller.commentPost);
+router.post(
+  '/blogs/:id',
+  passport.authenticate('jwt', { session: false }),
+  controller.commentPost
+);
 
 //*Delete
 

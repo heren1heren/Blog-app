@@ -1,39 +1,16 @@
 **Todo**:
-// start designing front end app
+
+wait to store token inside local storage
+then extract and verify token through verify callback middleware between protected routes
+
 **Notes**:
-storing virtual url inside models by id
+should I write :
+passport.use () from another file then import to app
+or write passport.use inside app.js file?
 **Plan**:
 Backend dependency:
 
-<!-- dotenv -->
-<!-- passportjs -->
-
-jwtpassportjs
-jwtwebtoken
-
 folders:
-
-<!-- DataBase: -->
-
-<!-- - models -->
-<!-- - mongoose.js -->
-
-<!-- controllers: -->
-<!-- passportjs: -->
-
-<!-- - strategy -->
-
-<!-- routes: -->
-<!-- list of how many routes that I need to implement: -->
-
-routes refactoring as needed.
-get comment routes main page
-get blogs routes main page
-post comment routes main page
-get sign up routes
-get log in routes
-post sign up routes
-get log in routes
 
 admin routes:
 get comment
@@ -44,8 +21,3 @@ delete comments
 delete blogs
 update blogs
 post routes for main page comments
-
-models:
--comments: data, description, username, id, blog:
--users: username, password, comments
--blogs: description, title, data, isPosted, id, comments
